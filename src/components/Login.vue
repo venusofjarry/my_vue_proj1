@@ -41,13 +41,13 @@ export default {
     }
   },
   methods: {
-    resetForm: function () {
+    resetForm: function() {
       this.$refs.loginFormRef.resetFields()
     },
     login () {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        console.log(this.loginForm)
+        // console.log(this.loginForm)
         const { data: res } = await this.$http.post('login', this.loginForm)
         if (res.meta.status !== 200) {
           return this.$message.error('登陆失败！')
