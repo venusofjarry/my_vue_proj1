@@ -4,4 +4,11 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    min-width: 1366px;
+}
+
+.card {
+    padding: 0 10px;
+    background-color: #fff;
+    margin-top: 10px;
 }

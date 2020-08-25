@@ -234,11 +234,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
- .card {
-     padding: 0 10px;
-     background-color: #fff;
-     margin-top: 10px;
- }
  .table {
      margin-top: 15px;
      font-size: 12px;
