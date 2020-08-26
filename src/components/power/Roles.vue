@@ -35,14 +35,21 @@
                 <el-table-column prop="roleName" label="角色名称"></el-table-column>
                 <el-table-column prop="roleDesc" label="角色描述"></el-table-column>
                 <el-table-column label="操作" width="300px">
-                    <template>
+                    <template slot-scope="scope">
                         <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
                         <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
-                        <el-button size="mini" type="warning" icon="el-icon-setting">分配权限</el-button>
+                        <el-button size="mini" type="warning" icon="el-icon-setting" @click="getRightsList(scope.row)">分配权限</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </el-card>
+        <el-dialog title="添加权限" :visible.sync="selectChangeVisible" width="50%">
+            <el-tree :data="rightslist" :props="rightsProps" node-key="id" show-checkbox default-expand-all :default-checked-keys="treeKeys" ref="treeRef"></el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="clearId">取 消</el-button>
+                <el-button type="primary" @click="setRightsConfirm">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -50,11 +57,20 @@
 export default {
     data () {
         return {
-            rolesList: []
+            rolesList: [],
+            selectChangeVisible: false,
+            rightslist: [],
+            rightsProps: {
+                children: 'children',
+                label: 'authName'
+            },
+             treeKeys: [],
+             roleId: ''
         }
     },
     created () {
         this.getRoleList()
+        this.getRightsList()
     },
     methods: {
         getRoleList: async function () {
@@ -64,6 +80,31 @@ export default {
             }
             // console.log(res.data)
             this.rolesList = res.data
+        },
+        getRightsList: async function (role) {
+            this.treeKeys = []
+            this.roleId = role.id
+            const { data: res } = await this.$http.get('rights/tree')
+            if (res.meta.status !== 200) {
+                return this.$message.error('获取权限数据失败')
+            }
+            this.$message.success('获取权限数据成功')
+            this.rightslist = res.data
+            this.getDefKeys(role, this.treeKeys)
+            console.log(this.treeKeys)
+            this.selectChangeVisible = true
+        },
+        getDefKeys: function (node, arr) {
+            if (!node.children) {
+                return arr.push(node.id)
+            }
+            node.children.forEach(item => {
+                this.getDefKeys(item, arr)
+            })
+        },
+        clearId: function () {
+            // 这里的关闭不能用来清空treekeys数组的数据，因为有时候不一定点取消，我如果点外面的空白区域，也会让弹框消失
+            this.selectChangeVisible = false
         },
         removeRightById: async function (role, rightId) {
             const confirmResult = await this.$confirm(
@@ -87,6 +128,20 @@ export default {
             // 为什么使用children的时候，一级分类也能被删除？
             // 因为在一级菜单上面就是整个表格，这整个表格装的所有的一级分类，因此，使用children属性，可以获取对应的一级分类表单对象
             role.children = res.data
+        },
+        setRightsConfirm: async function () {
+            this.selectChangeVisible = false
+            const keys = [
+                ...this.$refs.treeRef.getCheckedKeys(),
+                ...this.$refs.treeRef.getHalfCheckedKeys()
+            ]
+            const idStr = keys.join(',')
+            const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: idStr })
+            if (res.meta.status !== 200) {
+                return this.$message.error('添加权限失败')
+            }
+           this.$message.success('添加权限成功')
+            this.getRoleList()
         }
     }
 }
