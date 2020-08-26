@@ -12,3 +12,7 @@ body,
     background-color: #fff;
     margin-top: 10px;
 }
+
+.el-cascader-menu {
+    height: 300px;
+}

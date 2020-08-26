@@ -91,7 +91,6 @@ export default {
             this.$message.success('获取权限数据成功')
             this.rightslist = res.data
             this.getDefKeys(role, this.treeKeys)
-            console.log(this.treeKeys)
             this.selectChangeVisible = true
         },
         getDefKeys: function (node, arr) {
