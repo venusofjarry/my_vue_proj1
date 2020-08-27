@@ -113,6 +113,7 @@ export default {
             }
             // console.log(res)
             this.catelist = res.data.result
+            // console.log(this.catelist)
             this.total = res.data.total
         },
         addCateItem: function () {
@@ -127,7 +128,7 @@ export default {
             this.$message.success('获取商品分类信息成功')
             // console.log(res)
             this.parentList = res.data
-            console.log(this.parentList)
+            // console.log(this.parentList)
             this.getCatname()
         },
         pageSizeChange: function (newSize) {
