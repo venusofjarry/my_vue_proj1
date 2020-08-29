@@ -107,7 +107,6 @@ export default {
             queryInfo: {
                 type: '3'
             },
-            total: 0,
             getParentProp: {
                 value: 'cat_id',
                 label: 'cat_name',
@@ -143,7 +142,6 @@ export default {
             // console.log(res)
             this.catelist = res.data
             // console.log(this.catelist)
-            this.total = res.data.total
         },
         getCateChanged: function () {
             this.getParamsData()
