@@ -9,7 +9,7 @@
             <el-row :gutter="20">
                 <el-col :span="8">
                     <!-- 这里的query属性是指向姓名的，当传过去的query参数被后台接收时，就会返回对应的数据，达到查询的效果 -->
-                    <el-input clearable placeholder="请输入内容" class="input-with-select" width="60%" v-model="queryInfo.query" @clear="clearUserSearch">
+                    <el-input clearable placeholder="请输入内容" class="input-with-select" width="60%" v-model="queryInfo.query" @clear="getUserList">
                         <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
                     </el-input>
                 </el-col>
@@ -164,9 +164,6 @@ export default {
         },
         pagenumChange: function (newpage) {
             this.queryInfo.pagenum = newpage
-            this.getUserList()
-        },
-        clearUserSearch: function () {
             this.getUserList()
         },
         addUsersForm: function () {

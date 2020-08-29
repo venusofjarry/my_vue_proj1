@@ -65,7 +65,7 @@ export default {
            }
            this.goodsList = res.data.goods
            this.total = res.data.total
-           console.log('这是goods数据：', this.goodsList)
+        //    console.log('这是goods数据：', this.goodsList)
         },
         pageSizeChange: function (newSize) {
             this.queryInfo.pagesize = newSize
