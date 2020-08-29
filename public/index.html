@@ -5,7 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title><%= htmlWebpackPlugin.options.isProd ? '' : 'dev- ' %>电商后台管理系统</title>
+    <!-- 下面的模板字符串判断条件作用如下：1 用于判断是否处于发布模式，如果是，就渲染以下的css和js文件，如果不是则不渲染。
+    因为如果在开发模式，渲染以下文件，则后台变成空白。我的理解是：开发模式和发布模式处于两种状态，对应两种main.js文件。其中
+    开发模式的main.js文件和源文件一样不改变，而用于发布模式的main-prod.js文件则删除了一些文件，放在cdn上获取，这样可以减少
+    发布模式的文件大小 -->
+    <% if(htmlWebpackPlugin.options.isProd) { %>
+    <!-- css文件 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/quill/1.3.7/quill.core.min.css" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/quill/1.3.7/quill.snow.min.css" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/quill/1.3.7/quill.bubble.min.css" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/element-ui/2.13.2/theme-chalk/index.css" />
+  <!-- js文件 -->
+  <script src="https://cdn.staticfile.org/vue/2.6.12/vue.min.js"></script>
+  <script src="https://cdn.staticfile.org/vue-router/3.4.3/vue-router.min.js"></script>
+  <script src="https://cdn.staticfile.org/axios/0.20.0/axios.min.js"></script>
+  <script src="https://cdn.staticfile.org/lodash.js/4.17.20/lodash.min.js"></script>
+  <script src="https://cdn.staticfile.org/echarts/4.8.0/echarts.min.js"></script>
+  <script src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="https://cdn.staticfile.org/quill/1.3.7/quill.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-quill-editor@3.0.6/dist/vue-quill-editor.js"></script>
+  <script src="https://cdn.staticfile.org/quill/1.3.7/quill.min.js"></script>
+  <script src="https://cdn.staticfile.org/element-ui/2.13.2/index.js"></script>
+  <% } %>
   </head>
   <body>
     <noscript>
